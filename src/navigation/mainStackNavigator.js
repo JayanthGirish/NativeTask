@@ -1,29 +1,36 @@
-// import * as React from "react";
-// import { NavigationContainer } from "@react-navigation/native";
-// // import DrawerNavigation from "./DrawerNav";
-// // import MainWrapper from './mainWrapper';
-// import TaskList from "../containers/TaskListDetails/taskListDetails";
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import TaskDetailList from "../containers/TaskListDetails/taskListDetails";
+import IndivisualTaskList from "../containers/TaskListDetails/indivisualTask";
 
-// import { createStackNavigator } from "@react-navigation/stack";
+const Stack = createStackNavigator();
+const authStack = (props) => {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator>
+        <Stack.Screen
+          name={"TaskDetailList"}
+          component={TaskDetailList}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
 
-// const Stack = createStackNavigator();
-// const authStack = (props) => {
-//   return (
-//     <NavigationContainer>
-//       <Stack.Navigator>
-//         <Stack.Screen
-//           name={"TaskList"}
-//           component={TaskList}
-//           options={{
-//             headerShown: false,
-//             gestureEnabled: false,
-//           }}
-//         />
-//       </Stack.Navigator>
-//     </NavigationContainer>
-//   );
-// };
+        <Stack.Screen
+          name={"IndivisualTaskList"}
+          component={IndivisualTaskList}
+          options={{
+            headerShown: false,
+            gestureEnabled: false,
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
+  );
+};
 
-// const fontConfig = {};
+const fontConfig = {};
 
-// export default authStack;
+export default authStack;

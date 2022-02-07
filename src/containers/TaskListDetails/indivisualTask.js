@@ -4,16 +4,8 @@ import {
   Text,
   StyleSheet,
   ScrollView,
-  ImageBackground,
-  Image,
-  Dimensions,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
-  BackHandler,
-  AsyncStorage,
-  Alert,
-  Modal,
 } from "react-native";
 
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
@@ -25,41 +17,28 @@ import DatePickerComponent from "../../components/atoms/DatePicker";
 class IndivisualTaskList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      OrderedFoodData: [
-        {
-          orderConfirmation: "Order Confirmed",
-          mainItem: "Margherita Pizza",
-          quantity: "1",
-          date: "16-09-2021",
-          time: "8.30",
-          type: "Crust: Freash Pan Pizza, Size : Regular",
-          price: "$36",
-        },
-        {
-          orderConfirmation: "Order Confirmed",
-          mainItem: "Burger Cheese",
-          quantity: "2",
-          date: "19-02-21",
-          time: "12.30",
-          type: "Crust: Freash Pan Pizza,Size : Regular",
-          price: "$100",
-        },
-      ],
-    };
+    this.state = {};
   }
 
-  componentDidMount() {}
+  componentDidMount() {
+    let data = this.props && this.props.route && this.props.route.params;
+    this.setState({ data: data });
+    console.log("Data>>>>>>", data);
+  }
+
+  backhandler = () => {
+    this.props && this.props.navigation && this.props.navigation.goBack();
+  };
 
   render() {
     return (
       <View style={styles.mainView}>
         <View style={styles.taskIndivisualWrapper}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={this.backhandler}>
             <Icon name={"arrow-left"} color={"black"} size={25} />
           </TouchableOpacity>
           <View style={styles.taskheaderText}>
-            <Text style={styles.taskheaderText}>Task</Text>
+            <Text style={styles.taskheaderText}>Task Indivisual</Text>
           </View>
         </View>
         <View style={styles.linedrawersunmi} />
@@ -70,7 +49,9 @@ class IndivisualTaskList extends React.Component {
           </View>
           <View>
             <Text style={styles.taskIndivisualSubject}>
-              UI/UX-Design get work done desktop and mobile screen
+              {this.state.data &&
+                this.state.data.item &&
+                this.state.data.item.description}
             </Text>
           </View>
 
@@ -81,7 +62,13 @@ class IndivisualTaskList extends React.Component {
             <View style={styles.DueDateWrapper2}>
               <Text style={styles.assignedTo}>Due Date</Text>
               <View style={styles.datePicker}>
-                <DatePickerComponent />
+                <DatePickerComponent
+                  date={
+                    this.state.data &&
+                    this.state.data.item &&
+                    this.state.data.item.duedate
+                  }
+                />
               </View>
             </View>
           </View>
@@ -99,7 +86,14 @@ class IndivisualTaskList extends React.Component {
                 <Text style={styles.processText}>Process</Text>
               </View>
               <View style={styles.InputField}>
-                <InputField style={styles.InputField} />
+                <InputField
+                  style={styles.InputField}
+                  value={
+                    this.state.data &&
+                    this.state.data.item &&
+                    this.state.data.item.process
+                  }
+                />
               </View>
             </View>
           </View>
@@ -110,6 +104,11 @@ class IndivisualTaskList extends React.Component {
               style={styles.input}
               multiline={true}
               numberOfLines={10}
+              value={
+                this.state.data &&
+                this.state.data.item &&
+                this.state.data.item.description2
+              }
               //     onChangeText={onChangeNumber}
               //     value={number}
               //     placeholder="useless placeholder"
@@ -124,6 +123,11 @@ class IndivisualTaskList extends React.Component {
               style={styles.input1}
               multiline={true}
               numberOfLines={3}
+              value={
+                this.state.data &&
+                this.state.data.item &&
+                this.state.data.item.subtasks
+              }
               //     onChangeText={onChangeNumber}
               //     value={number}
               //     placeholder="useless placeholder"

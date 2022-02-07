@@ -154,7 +154,7 @@ const styles = StyleSheet.create({
   },
   interiorCleanText: {
     fontSize: 15,
-    width: "90%",
+    width: "70%",
     fontWeight: "bold",
   },
   MonthlyText: {

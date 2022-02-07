@@ -7,30 +7,61 @@ import {
   TextInput,
   TouchableOpacity,
 } from "react-native";
-
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import ProfileLogo from "../../assets/profilelogo";
 import InputField from "../../components/atoms/InputField";
 import { Button } from "../../components/atoms/Button";
 import DatePickerComponent from "../../components/atoms/DatePicker";
-
+import SelectDropdown from "react-native-select-dropdown";
+import axios from "axios";
 class IndivisualTaskList extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      data: [],
+      background: "",
+      dropdowndata: ["In Progress", "yet to start", "Completed", "Delayed"],
+      description: "",
+      dataid: "",
+    };
   }
 
   componentDidMount() {
     let data = this.props && this.props.route && this.props.route.params;
-    this.setState({ data: data });
+    this.setState({
+      data: data,
+      dataid:
+        this.props && this.props.route && this.props.route.params.item._id,
+    });
     console.log("Data>>>>>>", data);
   }
 
+  onChangeNumber(e) {
+    this.setState({ description: e.target.value });
+  }
+
+  onselect(statusdata) {
+    axios
+      .patch(`http://13.208.190.226:5007/api/update/${this.state.dataid}`, {
+        status: statusdata,
+      })
+      .then((response) => {
+        console.log("this is api calling", response.data);
+        this.props &&
+          this.props.navigation &&
+          this.props.navigation.navigate("TaskDetailList");
+      })
+      .catch((error) => {
+        console.log("here is erororo", error);
+        // alert("error");
+      });
+  }
   backhandler = () => {
     this.props && this.props.navigation && this.props.navigation.goBack();
   };
 
   render() {
+    //     const data = this.state;
     return (
       <View style={styles.mainView}>
         <View style={styles.taskIndivisualWrapper}>
@@ -38,12 +69,12 @@ class IndivisualTaskList extends React.Component {
             <Icon name={"arrow-left"} color={"black"} size={25} />
           </TouchableOpacity>
           <View style={styles.taskheaderText}>
-            <Text style={styles.taskheaderText}>Task Indivisual</Text>
+            <Text style={styles.taskheaderText}>Task Details</Text>
           </View>
         </View>
         <View style={styles.linedrawersunmi} />
 
-        <ScrollView>
+        <ScrollView style={styles.colorChanger}>
           <View style={styles.taskIndivisualMan}>
             <Text style={styles.taskIndivisualMan}>Task</Text>
           </View>
@@ -51,13 +82,37 @@ class IndivisualTaskList extends React.Component {
             <Text style={styles.taskIndivisualSubject}>
               {this.state.data &&
                 this.state.data.item &&
-                this.state.data.item.description}
+                this.state.data.item.taskname}
             </Text>
           </View>
 
           <View style={styles.container3}>
             <View style={styles.DueDateWrapper}>
               <Text style={styles.assignedTo}>Status</Text>
+              <View style={styles.InputField}>
+                <SelectDropdown
+                  value={
+                    this.state.data &&
+                    this.state.data.item &&
+                    this.state.data.item.status
+                  }
+                  data={this.state.dropdowndata}
+                  onSelect={(selectedItem, index) => {
+                    console.log(selectedItem, index);
+                    this.onselect(selectedItem);
+                  }}
+                  buttonTextAfterSelection={(selectedItem, index) => {
+                    // text represented after item is selected
+                    // if data array is an array of objects then return selectedItem.property to render after item is selected
+                    return selectedItem;
+                  }}
+                  rowTextForSelection={(item, index) => {
+                    // text represented for each item in dropdown
+                    // if data array is an array of objects then return item.property to represent item in dropdown
+                    return item;
+                  }}
+                />
+              </View>
             </View>
             <View style={styles.DueDateWrapper2}>
               <Text style={styles.assignedTo}>Due Date</Text>
@@ -77,23 +132,27 @@ class IndivisualTaskList extends React.Component {
             <View style={styles.processwrapper}>
               <Text style={styles.assignedTo}>Assigned to</Text>
               <View style={styles.ProfileLogo}>
-                <ProfileLogo />
+                <Text style={styles.ProfileLogo1}>
+                  {this.state.data &&
+                    this.state.data.item &&
+                    this.state.data.item.assignto}
+                </Text>
               </View>
             </View>
 
             <View style={styles.processwrapper2}>
               <View>
                 <Text style={styles.processText}>Process</Text>
-              </View>
-              <View style={styles.InputField}>
-                <InputField
-                  style={styles.InputField}
-                  value={
-                    this.state.data &&
-                    this.state.data.item &&
-                    this.state.data.item.process
-                  }
-                />
+                <View style={styles.InputField}>
+                  <InputField
+                    style={styles.InputField}
+                    value={
+                      this.state.data &&
+                      this.state.data.item &&
+                      this.state.data.item.process
+                    }
+                  />
+                </View>
               </View>
             </View>
           </View>
@@ -104,10 +163,11 @@ class IndivisualTaskList extends React.Component {
               style={styles.input}
               multiline={true}
               numberOfLines={10}
+              onChangeText={(e) => this.onChangeNumber(e)}
               value={
                 this.state.data &&
                 this.state.data.item &&
-                this.state.data.item.description2
+                this.state.data.item.description
               }
               //     onChangeText={onChangeNumber}
               //     value={number}
@@ -123,11 +183,7 @@ class IndivisualTaskList extends React.Component {
               style={styles.input1}
               multiline={true}
               numberOfLines={3}
-              value={
-                this.state.data &&
-                this.state.data.item &&
-                this.state.data.item.subtasks
-              }
+              onChangeText={(e) => this.onChangeNumber(e)}
               //     onChangeText={onChangeNumber}
               //     value={number}
               //     placeholder="useless placeholder"
@@ -141,7 +197,7 @@ class IndivisualTaskList extends React.Component {
             <Button
               style={styles.buttonViewStyle}
               buttonTextStyle={styles.buttonTextStyle}
-              text={"Add SubTask"}
+              text={" + Add SubTask"}
               icon={<Icon name="plus" size={25} color="white" />}
             />
           </View>
@@ -205,9 +261,22 @@ const styles = StyleSheet.create({
     // alignSelf : "center"
   },
   ProfileLogo: {
-    paddingHorizontal: 20,
-    backgroundColor: "#F9F9FB",
-    width: "50%",
+    padding: 5,
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 18,
+    height: 40,
+    marginLeft: 8,
+    //     paddingHorizontal: 20,
+    backgroundColor: "#DB9370",
+    width: "100%",
+  },
+  ProfileLogo1: {
+    padding: 5,
+    alignItems: "center",
+    textAlign: "center",
+    fontSize: 18,
+    backgroundColor: "#DB9370",
   },
   processText: {
     paddingHorizontal: 10,
@@ -217,6 +286,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   InputField: {
+    width: "20%",
+  },
+  InputField1: {
     width: "20%",
   },
   container1: {
@@ -239,6 +311,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 100,
     marginLeft: 10,
+    fontSize: 16,
   },
   input1: {
     borderWidth: 1,
@@ -246,6 +319,7 @@ const styles = StyleSheet.create({
     width: "90%",
     height: 30,
     marginLeft: 10,
+    fontSize: 16,
   },
   buttonTextStyle: {
     textAlign: "center",
@@ -260,6 +334,16 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   DueDateWrapper2: {
-    marginLeft: 120,
+    marginLeft: 4,
+    marginTop: -3,
+  },
+  InputField: {
+    width: "100%",
+  },
+  ButtonWrapperstyle: {
+    paddingVertical: 15,
+  },
+  colorChanger: {
+    backgroundColor: "#fff",
   },
 });

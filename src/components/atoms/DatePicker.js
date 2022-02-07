@@ -36,9 +36,9 @@ export default class DatePickerComponent extends React.Component {
           customStyles={{
             dateIcon: {},
             dateInput: {
-              backgroundColor: "#fff",
+              backgroundColor: "#D3D3D3",
               borderWidth: 1,
-              borderColor: "#fff",
+              borderColor: "#D3D3D3",
               display: "flex",
               flexDirection: "row",
             },
@@ -64,10 +64,11 @@ const styles = StyleSheet.create({
     width: 150,
   },
   datepickerWrapper: {
+    height: 50,
     width: "100%",
     marginLeft: "2%",
     display: "flex",
-    backgroundColor: "#fff",
+    backgroundColor: "#D3D3D3",
     borderWidth: 1,
     borderColor: "#4964924D",
     borderRadius: 4,

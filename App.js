@@ -18,6 +18,7 @@ import MainStackNavigator from "./src/navigation/mainStackNavigator";
 // import DrawerNavigation from "./src/navigation/DrawerNav";
 import { NavigationContainer } from "@react-navigation/native";
 import TaskList from "./src/containers/TaskListDetails/taskListDetails";
+import IndivisualTaskList from "./src/containers/TaskListDetails/indivisualTask";
 
 const theme = {
   ...DefaultTheme,
@@ -55,7 +56,8 @@ export default class App extends React.Component {
 
   render() {
     return (
-      <TaskList />
+      // <TaskList />
+      <IndivisualTaskList />
       // <Provider>
       //   <StatusBar />
       //   <PaperProvider theme={theme}>

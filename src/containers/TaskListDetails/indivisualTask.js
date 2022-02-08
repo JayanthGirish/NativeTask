@@ -167,6 +167,7 @@ class IndivisualTaskList extends React.Component {
             <TextInput
               style={styles.input}
               multiline={true}
+              editable={false}
               numberOfLines={10}
               onChangeText={(e) => this.onChangeAction(e)}
               value={
@@ -188,7 +189,6 @@ class IndivisualTaskList extends React.Component {
               style={styles.input1}
               multiline={true}
               numberOfLines={3}
-              onChangeText={(e) => this.onChangeAction(e)}
               //     onChangeText={onChangeAction}
               //     value={number}
               //     placeholder="useless placeholder"
@@ -310,6 +310,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
   },
   input: {
+    padding: 8,
     borderWidth: 1,
     borderColor: "#808080",
     width: "90%",

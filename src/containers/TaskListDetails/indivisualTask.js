@@ -8,18 +8,17 @@ import {
   TouchableOpacity,
 } from "react-native";
 import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import ProfileLogo from "../../assets/profilelogo";
 import InputField from "../../components/atoms/InputField";
 import { Button } from "../../components/atoms/Button";
 import DatePickerComponent from "../../components/atoms/DatePicker";
 import SelectDropdown from "react-native-select-dropdown";
+import Icon1 from "react-native-vector-icons/AntDesign";
 import axios from "axios";
 class IndivisualTaskList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       data: [],
-      background: "",
       dropdowndata: ["In Progress", "yet to start", "Completed", "Delayed"],
       description: "",
       dataid: "",
@@ -36,7 +35,7 @@ class IndivisualTaskList extends React.Component {
     console.log("Data>>>>>>", data);
   }
 
-  onChangeNumber(e) {
+  onChangeAction(e) {
     this.setState({ description: e.target.value });
   }
 
@@ -66,24 +65,34 @@ class IndivisualTaskList extends React.Component {
       <View style={styles.mainView}>
         <View style={styles.taskIndivisualWrapper}>
           <TouchableOpacity onPress={this.backhandler}>
-            <Icon name={"arrow-left"} color={"black"} size={25} />
+            <View style={styles.IconWrapper}>
+              <Icon name={"arrow-left"} color={"black"} size={25} />
+            </View>
           </TouchableOpacity>
           <View style={styles.taskheaderText}>
             <Text style={styles.taskheaderText}>Task Details</Text>
           </View>
         </View>
-        <View style={styles.linedrawersunmi} />
+        <View style={styles.lineDrawer} />
 
         <ScrollView style={styles.colorChanger}>
           <View style={styles.taskIndivisualMan}>
             <Text style={styles.taskIndivisualMan}>Task</Text>
           </View>
-          <View>
+          <View style={styles.TaskCardWrapper}>
             <Text style={styles.taskIndivisualSubject}>
               {this.state.data &&
                 this.state.data.item &&
                 this.state.data.item.taskname}
             </Text>
+            <View style={styles.innerTextCard}>
+              <Text style={{ color: "black", fontWeight: "bold" }}>
+                {this.state.data &&
+                  this.state.data.item &&
+                  this.state.data.item.commentcount}
+              </Text>
+              <Icon1 name="enter" size={24} color={"blue"} />
+            </View>
           </View>
 
           <View style={styles.container3}>
@@ -102,13 +111,9 @@ class IndivisualTaskList extends React.Component {
                     this.onselect(selectedItem);
                   }}
                   buttonTextAfterSelection={(selectedItem, index) => {
-                    // text represented after item is selected
-                    // if data array is an array of objects then return selectedItem.property to render after item is selected
                     return selectedItem;
                   }}
                   rowTextForSelection={(item, index) => {
-                    // text represented for each item in dropdown
-                    // if data array is an array of objects then return item.property to represent item in dropdown
                     return item;
                   }}
                 />
@@ -163,13 +168,13 @@ class IndivisualTaskList extends React.Component {
               style={styles.input}
               multiline={true}
               numberOfLines={10}
-              onChangeText={(e) => this.onChangeNumber(e)}
+              onChangeText={(e) => this.onChangeAction(e)}
               value={
                 this.state.data &&
                 this.state.data.item &&
                 this.state.data.item.description
               }
-              //     onChangeText={onChangeNumber}
+              //     onChangeText={onChangeAction}
               //     value={number}
               //     placeholder="useless placeholder"
               keyboardType="default"
@@ -183,8 +188,8 @@ class IndivisualTaskList extends React.Component {
               style={styles.input1}
               multiline={true}
               numberOfLines={3}
-              onChangeText={(e) => this.onChangeNumber(e)}
-              //     onChangeText={onChangeNumber}
+              onChangeText={(e) => this.onChangeAction(e)}
+              //     onChangeText={onChangeAction}
               //     value={number}
               //     placeholder="useless placeholder"
               keyboardType="default"
@@ -220,12 +225,13 @@ const styles = StyleSheet.create({
     textAlign: "center",
     alignItems: "center",
     marginRight: 80,
+    fontWeight: "bold",
   },
   taskIndivisualWrapper: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: 40,
+    paddingTop: 80,
     paddingVertical: 10,
     alignItems: "center",
   },
@@ -251,14 +257,12 @@ const styles = StyleSheet.create({
     color: "#808080",
     fontWeight: "bold",
   },
-  linedrawersunmi: {
+  lineDrawer: {
     height: 1.5,
     backgroundColor: "#00000014",
     marginVertical: 8,
     display: "flex",
     alignItems: "center",
-    // alignContent : 'center',
-    // alignSelf : "center"
   },
   ProfileLogo: {
     padding: 5,
@@ -345,5 +349,18 @@ const styles = StyleSheet.create({
   },
   colorChanger: {
     backgroundColor: "#fff",
+  },
+  IconWrapper: {
+    padding: 8,
+  },
+  innerTextCard: {
+    display: "flex",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    marginRight: 20,
+  },
+  TaskCardWrapper: {
+    display: "flex",
+    flexDirection: "row",
   },
 });

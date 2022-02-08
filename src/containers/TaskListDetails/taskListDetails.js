@@ -9,7 +9,6 @@ import {
 import Icon from "react-native-vector-icons/AntDesign";
 import ProfileLogo from "../../assets/profilelogo";
 import CardDetails from "../../components/cardTask";
-import ProfileLogo1 from "../../assets/profilelogo2.svg";
 import axios from "axios";
 
 class TaskDetailList extends React.Component {
@@ -29,12 +28,10 @@ class TaskDetailList extends React.Component {
     axios
       .get(`http://13.208.190.226:5007/api/get`)
       .then((response) => {
-        // console.log("this is api calling", response.data);
         this.setState({ data: response.data.jobTitles });
       })
       .catch((error) => {
-        console.log("here is erororo", error);
-        // alert("error");
+        console.log("Error in Getting the data", error);
       });
   }
 
@@ -43,7 +40,9 @@ class TaskDetailList extends React.Component {
       <View style={styles.mainView}>
         <View style={styles.container}>
           <View style={styles.taskIndivisualWrapper}>
-            <Icon name="carryout" size={28} />
+            <View style={styles.IconWrapper}>
+              <Icon name="carryout" color="green" size={28} />
+            </View>
             <View style={styles.taskheaderText}>
               <Text style={styles.taskheaderText}>Task Lists</Text>
             </View>
@@ -103,13 +102,13 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     alignItems: "center",
-    marginRight: 60,
+    marginRight: 80,
   },
   taskIndivisualWrapper: {
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingTop: 40,
+    paddingTop: 70,
     paddingVertical: 10,
     alignItems: "center",
   },
@@ -138,8 +137,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 10,
   },
-
   paddingextra: {
     paddingBottom: 10,
+  },
+  IconWrapper: {
+    padding: 10,
   },
 });

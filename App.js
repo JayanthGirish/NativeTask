@@ -1,11 +1,8 @@
 import React from "react";
-import { View, Text, AsyncStorage, StatusBar } from "react-native";
-// import MainStackNavigator from "./src/navigation/mainStackNavigator";
-import { Provider } from "react-redux";
 import { DefaultTheme, Provider as PaperProvider } from "react-native-paper";
 import MainStackNavigator from "./src/navigation/mainStackNavigator";
-import TaskDetailList from "./src/containers/TaskListDetails/taskListDetails";
-import IndivisualTaskList from "./src/containers/TaskListDetails/indivisualTask";
+// import TaskDetailList from "./src/containers/TaskListDetails/taskListDetails";
+// import IndivisualTaskList from "./src/containers/TaskListDetails/indivisualTask";
 
 const theme = {
   ...DefaultTheme,

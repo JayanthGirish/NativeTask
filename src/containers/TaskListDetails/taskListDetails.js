@@ -9,6 +9,7 @@ import {
 import Icon from "react-native-vector-icons/AntDesign";
 import ProfileLogo from "../../assets/profilelogo";
 import CardDetails from "../../components/cardTask";
+import { Button } from "../../components/atoms/Button";
 import axios from "axios";
 
 class TaskDetailList extends React.Component {
@@ -83,6 +84,15 @@ class TaskDetailList extends React.Component {
               );
             })}
           </View>
+
+          <View style={styles.ButtonWrapperstyle}>
+            <Button
+              style={styles.buttonViewStyle}
+              buttonTextStyle={styles.buttonTextStyle}
+              text={" + Task"}
+              icon={<Icon name="plus" size={25} color="white" />}
+            />
+          </View>
         </ScrollView>
       </View>
     );
@@ -142,5 +152,13 @@ const styles = StyleSheet.create({
   },
   IconWrapper: {
     padding: 10,
+  },
+  ButtonWrapperstyle: {
+    paddingVertical: 15,
+  },
+  buttonTextStyle: {
+    textAlign: "center",
+    fontSize: 18,
+    color: "white",
   },
 });
